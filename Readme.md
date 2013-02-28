@@ -45,3 +45,11 @@ Using the above class, generating a list of SampleItems is easy:
 	var amounts = result.Select(r => r.Amount);
 
 Not only does this give you back Intellisense, but it lets you scrub the CSV data of unneeded characters.
+
+#### Extension Methods
+
+If you already have the CSV loaded into an array of strings, you can simply call this method on it to get the same result:
+
+	var items = fileContents.ConvertFromCsv();
+
+Like ReadCsv, this can also take in a mapping function in the same way.
