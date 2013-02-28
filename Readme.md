@@ -46,7 +46,7 @@ public class SampleItem
 Using the above class, generating a list of SampleItems is easy:
 
 ```c#
-var result = _fileContents.ConvertFromCsv(i => new SampleItem(i));
+var result = CsvToLinq.ReadCsv(@"SomeFile.csv", i => new SampleItem(i));
 var amounts = result.Select(r => r.Amount);
 ```
 
