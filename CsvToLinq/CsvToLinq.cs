@@ -83,8 +83,8 @@ namespace CsvToLinq
         /// <returns></returns>
         public static List<T> ConvertFromCsv<T>(this string[] csvString, Func<dynamic, T> mapFunction)
         {
-            var res = ConvertFromCsv(csvString);
-            return res.Select(i => mapFunction(i)).ToList() as List<T>;
+            var converted = ConvertFromCsv(csvString);
+            return converted.Select(i => (T)mapFunction(i)).ToList();
         }
     }
 }
