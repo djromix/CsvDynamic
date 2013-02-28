@@ -11,6 +11,7 @@ namespace CsvToLinq.UnitTests
         private string[] _fileContents;
         private string _fileBroken;
         private string _fileMismatched;
+        private string _fileEmpty;
 
         #region Setup/Teardown
 
@@ -22,6 +23,7 @@ namespace CsvToLinq.UnitTests
 
             _fileBroken = @"SampleBroken.csv";
             _fileMismatched = @"SampleMismatched.csv";
+            _fileEmpty = @"SampleEmpty.csv";
         }
 
         #endregion
@@ -99,6 +101,71 @@ namespace CsvToLinq.UnitTests
             //
             Assert.Throws<CsvToLinqException>(() => CsvToLinq.ReadCsv(_fileMismatched),
                 "Not all rows had equal cell count.");
+        }
+
+
+        [Test]
+        public void ReadCsv_FilePathIsEmpty_ReturnsException()
+        {
+            //
+            // Arrange
+            //
+
+
+            //
+            // Act
+            //
+
+            // Call function being test
+
+            //
+            // Assert
+            //
+            Assert.Throws<ArgumentException>(() => CsvToLinq.ReadCsv(string.Empty),
+                "Empty path name is not legal.");
+        }
+
+
+        [Test]
+        public void ReadCsv_FileDoesNotExist_ReturnsException()
+        {
+            //
+            // Arrange
+            //
+
+
+            //
+            // Act
+            //
+
+            // Call function being test
+
+            //
+            // Assert
+            //
+            Assert.Throws<FileNotFoundException>(() => CsvToLinq.ReadCsv("FileNotFound.csv"));
+        }
+
+
+        [Test]
+        public void ReadCsv_FileIsEmpty_ReturnsException()
+        {
+            //
+            // Arrange
+            //
+
+
+            //
+            // Act
+            //
+
+            // Call function being test
+
+            //
+            // Assert
+            //
+            Assert.Throws<CsvToLinqException>(() => CsvToLinq.ReadCsv(_fileEmpty),
+                "No rows were found.");
         }
 
 
