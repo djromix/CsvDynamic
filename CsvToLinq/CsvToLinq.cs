@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CsvToLinq
@@ -15,7 +16,7 @@ namespace CsvToLinq
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public dynamic ReadCsv(string filePath)
+        public List<dynamic> ReadCsv(string filePath)
         {
             return File.ReadAllLines(filePath).ConvertFromCsv();
         }
@@ -27,7 +28,7 @@ namespace CsvToLinq
         /// <param name="filePath"></param>
         /// <param name="mapFunction"></param>
         /// <returns></returns>
-        public T ReadCsv<T>(string filePath, Func<dynamic, T> mapFunction)
+        public List<T> ReadCsv<T>(string filePath, Func<dynamic, T> mapFunction)
         {
             return File.ReadAllLines(filePath).ConvertFromCsv(mapFunction);
         }
@@ -40,9 +41,37 @@ namespace CsvToLinq
         /// </summary>
         /// <param name="csvString"></param>
         /// <returns></returns>
-        public static dynamic ConvertFromCsv(this string[] csvString)
+        public static List<dynamic> ConvertFromCsv(this string[] csvString)
         {
-            throw new NotImplementedException();
+            // Get all items into rows
+            var csvArray = csvString.Select(l => l.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)).ToList();
+
+            // Get header row
+            var header = csvArray.First();
+
+            // Sanitize header items
+            var sanitizerRegex = new Regex("[^a-zA-Z0-9]");
+            header = header.Select(c => sanitizerRegex.Replace(c, string.Empty)).ToArray();
+            
+            // Get the other rows
+            var items = csvArray.Skip(1);
+
+            // Create list of dynamic objects
+            var returnList = new List<dynamic>();
+
+            // Populate properties of objects
+            foreach (var item in items)
+            {
+                var listItem = new ExpandoObject();
+                var li = listItem as IDictionary<String, object>;
+                for (var i = 0; i < header.Count(); i++)
+                {
+                    li[header[i]] = item[i];
+                }
+                returnList.Add(listItem);
+            }
+
+            return returnList;
         } 
 
         /// <summary>
@@ -52,9 +81,10 @@ namespace CsvToLinq
         /// <param name="csvString"></param>
         /// <param name="mapFunction"></param>
         /// <returns></returns>
-        public static T ConvertFromCsv<T>(this string[] csvString, Func<dynamic, T> mapFunction)
+        public static List<T> ConvertFromCsv<T>(this string[] csvString, Func<dynamic, T> mapFunction)
         {
-            return ConvertFromCsv(csvString).Select(mapFunction);
+            var res = ConvertFromCsv(csvString);
+            return res.Select(i => mapFunction(i)).ToList() as List<T>;
         }
     }
 }

@@ -45,8 +45,11 @@ namespace CsvToLinq.UnitTests
             //
             // Assert
             //
-
+            Assert.IsTrue(result.Count == 4);
             Assert.IsTrue(result[0].Date == @"""2/27/2013""");
+            Assert.IsTrue(result[0].Description == @"""Jimmy John's""");
+            Assert.IsTrue(result[0].OriginalDescription == @"""JIMMY JOHNS""");
+            Assert.IsTrue(result[0].Amount == @"""6.58""");
         }
 
         #endregion
