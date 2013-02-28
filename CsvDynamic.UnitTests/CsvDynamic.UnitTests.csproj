@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -48,6 +49,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="SampleMalformed.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="SampleEmpty.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -63,7 +67,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CsvToLinq\CsvDynamic.csproj">
+    <ProjectReference Include="..\CsvDynamic\CsvDynamic.csproj">
       <Project>{019a6b31-6500-46ab-b9f5-949a695e0705}</Project>
       <Name>CsvDynamic</Name>
     </ProjectReference>

@@ -12,6 +12,7 @@ namespace CsvDynamic.UnitTests
         private string _fileBroken;
         private string _fileMismatched;
         private string _fileEmpty;
+        private string _fileMalformed;
 
         #region Setup/Teardown
 
@@ -23,6 +24,7 @@ namespace CsvDynamic.UnitTests
 
             _fileBroken = @"SampleBroken.csv";
             _fileMismatched = @"SampleMismatched.csv";
+            _fileMalformed = @"SampleMalformed.csv";
             _fileEmpty = @"SampleEmpty.csv";
         }
 
@@ -50,14 +52,14 @@ namespace CsvDynamic.UnitTests
             // Assert
             //
             Assert.IsTrue(result.Count == 4);
-            Assert.IsTrue(result[0].Date == @"""2/27/2013""");
-            Assert.IsTrue(result[0].Description == @"""Jimmy John's""");
-            Assert.IsTrue(result[0].OriginalDescription == @"""JIMMY JOHNS""");
-            Assert.IsTrue(result[0].TransactionType == @"""debit""");
-            Assert.IsTrue(result[0].Category == @"""Restaurants""");
-            Assert.IsTrue(result[0].AccountName == @"""CREDIT CARD""");
-            Assert.IsTrue(result[0].Labels == @"""""");
-            Assert.IsTrue(result[0].Notes == @"""""");
+            Assert.IsTrue(result[0].Date == @"2/27/2013");
+            Assert.IsTrue(result[0].Description == @"Jimmy John's");
+            Assert.IsTrue(result[0].OriginalDescription == @"JIMMY JOHNS");
+            Assert.IsTrue(result[0].TransactionType == @"debit");
+            Assert.IsTrue(result[0].Category == @"Restaurants");
+            Assert.IsTrue(result[0].AccountName == @"CREDIT CARD");
+            Assert.IsTrue(result[0].Labels == string.Empty);
+            Assert.IsTrue(result[0].Notes == string.Empty);
         }
 
         [Test]
@@ -101,6 +103,28 @@ namespace CsvDynamic.UnitTests
             //
             Assert.Throws<CsvDynamicException>(() => CsvDynamic.ReadCsv(_fileMismatched),
                 "Not all rows had equal cell count.");
+        }
+
+
+        [Test]
+        public void ReadCsv_FileIsMalformed_ReturnsException()
+        {
+            //
+            // Arrange
+            //
+
+
+            //
+            // Act
+            //
+
+            // Call function being test
+
+            //
+            // Assert
+            //
+            Assert.Throws<Microsoft.VisualBasic.FileIO.MalformedLineException>(
+                () => CsvDynamic.ReadCsv(_fileMalformed));
         }
 
 
@@ -217,14 +241,14 @@ namespace CsvDynamic.UnitTests
             // Assert
             //
             Assert.IsTrue(result.Count == 4);
-            Assert.IsTrue(result[0].Date == @"""2/27/2013""");
-            Assert.IsTrue(result[0].Description == @"""Jimmy John's""");
-            Assert.IsTrue(result[0].OriginalDescription == @"""JIMMY JOHNS""");
-            Assert.IsTrue(result[0].TransactionType == @"""debit""");
-            Assert.IsTrue(result[0].Category == @"""Restaurants""");
-            Assert.IsTrue(result[0].AccountName == @"""CREDIT CARD""");
-            Assert.IsTrue(result[0].Labels == @"""""");
-            Assert.IsTrue(result[0].Notes == @"""""");
+            Assert.IsTrue(result[0].Date == @"2/27/2013");
+            Assert.IsTrue(result[0].Description == @"Jimmy John's");
+            Assert.IsTrue(result[0].OriginalDescription == @"JIMMY JOHNS");
+            Assert.IsTrue(result[0].TransactionType == @"debit");
+            Assert.IsTrue(result[0].Category == @"Restaurants");
+            Assert.IsTrue(result[0].AccountName == @"CREDIT CARD");
+            Assert.IsTrue(result[0].Labels == string.Empty);
+            Assert.IsTrue(result[0].Notes == string.Empty);
         }
 
         [Test]

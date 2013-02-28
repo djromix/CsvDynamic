@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic.FileIO;
 
 namespace CsvDynamic
 {
@@ -50,7 +51,7 @@ namespace CsvDynamic
             if (csvString.Count() == 1) throw new CsvDynamicException("Only one row was found.");
 
             // Get all items into rows
-            var csvArray = csvString.Select(l => l.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)).ToList();
+            var csvArray = csvString.Select(ConvertStringToArray).ToList();
 
             // Get header row
             var header = csvArray.First();
@@ -82,7 +83,26 @@ namespace CsvDynamic
             }
 
             return returnList;
-        } 
+        }
+
+        /// <summary>
+        /// Converts a string to an array using the Microsft.VisualBasic text field parser.
+        /// </summary>
+        /// <param name="csvString"></param>
+        /// <returns></returns>
+        private static string[] ConvertStringToArray(string csvString)
+        {
+            var reader = new StringReader(string.Join(Environment.NewLine, csvString));
+            using (var parser = new TextFieldParser(reader))
+            {
+                parser.Delimiters = new[] { "," };
+                while (true)
+                {
+                    var parts = parser.ReadFields();
+                    return parts ?? (new List<string>()).ToArray();
+                }
+            }
+        }
 
         /// <summary>
         /// Converts a CSV string to dynamic objects, which then get mapped with a MapFunction.
