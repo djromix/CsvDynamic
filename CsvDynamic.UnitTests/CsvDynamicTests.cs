@@ -288,15 +288,15 @@ namespace CsvDynamic.UnitTests
         {
             public SampleItem(dynamic item)
             {
-                Date = DateTime.Parse(item.Date.Trim('\"'));
-                Description = item.Description.Trim('\"');
-                OriginalDescription = item.OriginalDescription.Trim('\"');
-                Amount = decimal.Parse(item.Amount.Trim('\"'));
-                TransactionType = item.TransactionType.Trim('\"');
-                Category = item.Category.Trim('\"');
-                AccountName = item.AccountName.Trim('\"');
-                Labels = item.Labels.Trim('\"');
-                Notes = item.Notes.Trim('\"');
+                Date = DateTime.Parse(item.Date);
+                Description = item.Description;
+                OriginalDescription = item.OriginalDescription;
+                Amount = decimal.Parse(item.Amount);
+                TransactionType = item.TransactionType;
+                Category = item.Category;
+                AccountName = item.AccountName;
+                Labels = item.Labels;
+                Notes = item.Notes;
             }
 
             public DateTime Date { get; set; }
