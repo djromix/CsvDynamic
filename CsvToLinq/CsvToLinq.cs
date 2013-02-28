@@ -16,7 +16,7 @@ namespace CsvToLinq
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public List<dynamic> ReadCsv(string filePath)
+        public static List<dynamic> ReadCsv(string filePath)
         {
             return File.ReadAllLines(filePath).ConvertFromCsv();
         }
@@ -28,7 +28,7 @@ namespace CsvToLinq
         /// <param name="filePath"></param>
         /// <param name="mapFunction"></param>
         /// <returns></returns>
-        public List<T> ReadCsv<T>(string filePath, Func<dynamic, T> mapFunction)
+        public static List<T> ReadCsv<T>(string filePath, Func<dynamic, T> mapFunction)
         {
             return File.ReadAllLines(filePath).ConvertFromCsv(mapFunction);
         }
