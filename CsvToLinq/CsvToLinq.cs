@@ -43,18 +43,28 @@ namespace CsvToLinq
         /// <returns></returns>
         public static List<dynamic> ConvertFromCsv(this string[] csvString)
         {
+            // If no rows, then it won't work.
+            if (!csvString.Any()) throw new CsvToLinqException("No rows were found.");
+
+            // If only a header row, got a problem.
+            if (csvString.Count() == 1) throw new CsvToLinqException("Only one row was found.");
+
             // Get all items into rows
             var csvArray = csvString.Select(l => l.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)).ToList();
 
             // Get header row
             var header = csvArray.First();
 
+            // Ensure that each row has the same count, if not, that's not good
+            var fourSided = csvArray.All(row => row.Count() == header.Count());
+            if (!fourSided) throw new CsvToLinqException("Not all rows had equal cell count.");
+
             // Sanitize header items
             var sanitizerRegex = new Regex("[^a-zA-Z0-9]");
             header = header.Select(c => sanitizerRegex.Replace(c, string.Empty)).ToArray();
             
             // Get the other rows
-            var items = csvArray.Skip(1);
+            var items = csvArray.Skip(1).ToList();
 
             // Create list of dynamic objects
             var returnList = new List<dynamic>();
@@ -86,5 +96,10 @@ namespace CsvToLinq
             var converted = ConvertFromCsv(csvString);
             return converted.Select(i => (T)mapFunction(i)).ToList();
         }
+    }
+
+    public class CsvToLinqException : Exception
+    {
+        public CsvToLinqException(string message): base(message){}
     }
 }

@@ -9,6 +9,8 @@ namespace CsvToLinq.UnitTests
     {
         private string _fileName;
         private string[] _fileContents;
+        private string _fileBroken;
+        private string _fileMismatched;
 
         #region Setup/Teardown
 
@@ -17,6 +19,9 @@ namespace CsvToLinq.UnitTests
         {
             _fileName = @"Sample.csv";
             _fileContents = File.ReadAllLines(_fileName);
+
+            _fileBroken = @"SampleBroken.csv";
+            _fileMismatched = @"SampleMismatched.csv";
         }
 
         #endregion
@@ -51,6 +56,49 @@ namespace CsvToLinq.UnitTests
             Assert.IsTrue(result[0].AccountName == @"""CREDIT CARD""");
             Assert.IsTrue(result[0].Labels == @"""""");
             Assert.IsTrue(result[0].Notes == @"""""");
+        }
+
+        [Test]
+        public void ReadCsv_FileIsBroken_ReturnsException()
+        {
+            //
+            // Arrange
+            //
+
+
+            //
+            // Act
+            //
+
+            // Call function being test
+
+            //
+            // Assert
+            //
+            Assert.Throws<CsvToLinqException>(() => CsvToLinq.ReadCsv(_fileBroken),
+                "Only one row was found.");
+        }
+
+
+        [Test]
+        public void ReadCsv_FileIsMismatched_ReturnsException()
+        {
+            //
+            // Arrange
+            //
+
+
+            //
+            // Act
+            //
+
+            // Call function being test
+
+            //
+            // Assert
+            //
+            Assert.Throws<CsvToLinqException>(() => CsvToLinq.ReadCsv(_fileMismatched),
+                "Not all rows had equal cell count.");
         }
 
 
