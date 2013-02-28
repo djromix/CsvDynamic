@@ -42,7 +42,7 @@ namespace CsvToLinq
         /// <returns></returns>
         public static dynamic ConvertFromCsv(this string[] csvString)
         {
-            
+            throw new NotImplementedException();
         } 
 
         /// <summary>
