@@ -75,14 +75,14 @@ namespace CsvToLinq.UnitTests
             //
             Assert.IsTrue(result.Count == 4);
             Assert.IsTrue(result[0].Date == new DateTime(2013, 2, 27));
-            Assert.IsTrue(result[0].Description == @"""Jimmy John's""");
-            Assert.IsTrue(result[0].OriginalDescription == @"""JIMMY JOHNS""");
+            Assert.IsTrue(result[0].Description == @"Jimmy John's");
+            Assert.IsTrue(result[0].OriginalDescription == @"JIMMY JOHNS");
             Assert.IsTrue(result[0].Amount == 6.58m);
-            Assert.IsTrue(result[0].TransactionType == @"""debit""");
-            Assert.IsTrue(result[0].Category == @"""Restaurants""");
-            Assert.IsTrue(result[0].AccountName == @"""CREDIT CARD""");
-            Assert.IsTrue(result[0].Labels == @"""""");
-            Assert.IsTrue(result[0].Notes == @"""""");
+            Assert.IsTrue(result[0].TransactionType == @"debit");
+            Assert.IsTrue(result[0].Category == @"Restaurants");
+            Assert.IsTrue(result[0].AccountName == @"CREDIT CARD");
+            Assert.IsTrue(result[0].Labels == string.Empty);
+            Assert.IsTrue(result[0].Notes == string.Empty);
         }
 
         #endregion
@@ -93,15 +93,15 @@ namespace CsvToLinq.UnitTests
         {
             public SampleItem(dynamic item)
             {
-                Date = DateTime.Parse(((string)item.Date).Trim('\"'));
-                Description = item.Description;
-                OriginalDescription = item.OriginalDescription;
-                Amount = decimal.Parse(((string)item.Amount).Trim('\"'));
-                TransactionType = item.TransactionType;
-                Category = item.Category;
-                AccountName = item.AccountName;
-                Labels = item.Labels;
-                Notes = item.Notes;
+                Date = DateTime.Parse(item.Date.Trim('\"'));
+                Description = item.Description.Trim('\"');
+                OriginalDescription = item.OriginalDescription.Trim('\"');
+                Amount = decimal.Parse(item.Amount.Trim('\"'));
+                TransactionType = item.TransactionType.Trim('\"');
+                Category = item.Category.Trim('\"');
+                AccountName = item.AccountName.Trim('\"');
+                Labels = item.Labels.Trim('\"');
+                Notes = item.Notes.Trim('\"');
             }
 
             public DateTime Date { get; set; }
