@@ -7,9 +7,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace CsvToLinq
+namespace CsvDynamic
 {
-    public class CsvToLinq
+    public class CsvDynamic
     {
         /// <summary>
         /// Reads a CSV file and outputs dynamic objects.
@@ -34,7 +34,7 @@ namespace CsvToLinq
         }
     }
 
-    public static class CsvToLinqExtensions
+    public static class CsvDynamicExtensions
     {
         /// <summary>
         /// Converts a CSV string to dynamic objects.
@@ -44,10 +44,10 @@ namespace CsvToLinq
         public static List<dynamic> ConvertFromCsv(this string[] csvString)
         {
             // If no rows, then it won't work.
-            if (!csvString.Any()) throw new CsvToLinqException("No rows were found.");
+            if (!csvString.Any()) throw new CsvDynamicException("No rows were found.");
 
             // If only a header row, got a problem.
-            if (csvString.Count() == 1) throw new CsvToLinqException("Only one row was found.");
+            if (csvString.Count() == 1) throw new CsvDynamicException("Only one row was found.");
 
             // Get all items into rows
             var csvArray = csvString.Select(l => l.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)).ToList();
@@ -57,7 +57,7 @@ namespace CsvToLinq
 
             // Ensure that each row has the same count, if not, that's not good
             var fourSided = csvArray.All(row => row.Count() == header.Count());
-            if (!fourSided) throw new CsvToLinqException("Not all rows had equal cell count.");
+            if (!fourSided) throw new CsvDynamicException("Not all rows had equal cell count.");
 
             // Sanitize header items
             var sanitizerRegex = new Regex("[^a-zA-Z0-9]");
@@ -98,8 +98,8 @@ namespace CsvToLinq
         }
     }
 
-    public class CsvToLinqException : Exception
+    public class CsvDynamicException : Exception
     {
-        public CsvToLinqException(string message): base(message){}
+        public CsvDynamicException(string message) : base(message) { }
     }
 }

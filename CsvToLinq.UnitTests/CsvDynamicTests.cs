@@ -2,10 +2,10 @@
 using System.IO;
 using NUnit.Framework;
 
-namespace CsvToLinq.UnitTests
+namespace CsvDynamic.UnitTests
 {
     [TestFixture]
-    public class CsvToLinqTests
+    public class CsvDynamicTests
     {
         private string _fileName;
         private string[] _fileContents;
@@ -44,7 +44,7 @@ namespace CsvToLinq.UnitTests
             //
 
             // Call function being test
-            var result = CsvToLinq.ReadCsv(_fileName);
+            var result = CsvDynamic.ReadCsv(_fileName);
 
             //
             // Assert
@@ -77,7 +77,7 @@ namespace CsvToLinq.UnitTests
             //
             // Assert
             //
-            Assert.Throws<CsvToLinqException>(() => CsvToLinq.ReadCsv(_fileBroken),
+            Assert.Throws<CsvDynamicException>(() => CsvDynamic.ReadCsv(_fileBroken),
                 "Only one row was found.");
         }
 
@@ -99,7 +99,7 @@ namespace CsvToLinq.UnitTests
             //
             // Assert
             //
-            Assert.Throws<CsvToLinqException>(() => CsvToLinq.ReadCsv(_fileMismatched),
+            Assert.Throws<CsvDynamicException>(() => CsvDynamic.ReadCsv(_fileMismatched),
                 "Not all rows had equal cell count.");
         }
 
@@ -121,7 +121,7 @@ namespace CsvToLinq.UnitTests
             //
             // Assert
             //
-            Assert.Throws<ArgumentException>(() => CsvToLinq.ReadCsv(string.Empty),
+            Assert.Throws<ArgumentException>(() => CsvDynamic.ReadCsv(string.Empty),
                 "Empty path name is not legal.");
         }
 
@@ -143,7 +143,7 @@ namespace CsvToLinq.UnitTests
             //
             // Assert
             //
-            Assert.Throws<FileNotFoundException>(() => CsvToLinq.ReadCsv("FileNotFound.csv"));
+            Assert.Throws<FileNotFoundException>(() => CsvDynamic.ReadCsv("FileNotFound.csv"));
         }
 
 
@@ -164,7 +164,7 @@ namespace CsvToLinq.UnitTests
             //
             // Assert
             //
-            Assert.Throws<CsvToLinqException>(() => CsvToLinq.ReadCsv(_fileEmpty),
+            Assert.Throws<CsvDynamicException>(() => CsvDynamic.ReadCsv(_fileEmpty),
                 "No rows were found.");
         }
 
@@ -181,7 +181,7 @@ namespace CsvToLinq.UnitTests
             //
 
             // Call function being test
-            var result = CsvToLinq.ReadCsv(_fileName, i => new SampleItem(i));
+            var result = CsvDynamic.ReadCsv(_fileName, i => new SampleItem(i));
 
             //
             // Assert

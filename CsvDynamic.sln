@@ -1,15 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvToLinq", "CsvToLinq\CsvToLinq.csproj", "{019A6B31-6500-46AB-B9F5-949A695E0705}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvDynamic", "CsvToLinq\CsvDynamic.csproj", "{019A6B31-6500-46AB-B9F5-949A695E0705}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvToLinq.UnitTests", "CsvToLinq.UnitTests\CsvToLinq.UnitTests.csproj", "{C45AA3D0-F28B-433A-BAAE-140AAA59854B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvDynamic.UnitTests", "CsvToLinq.UnitTests\CsvDynamic.UnitTests.csproj", "{C45AA3D0-F28B-433A-BAAE-140AAA59854B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F508E0CB-B6A5-4AD5-98B9-CFAD4D78F2CB}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8BC5B67A-4D95-41AB-9B27-590CDC37DCA5}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
 	EndProjectSection
 EndProject
 Global

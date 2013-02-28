@@ -1,4 +1,4 @@
-###CsvToLinq
+###CsvDynamic
 
 This is a small library I built to take a CSV file and convert it for use in C# using dynamic objects. 
 It's pretty simple to use:
