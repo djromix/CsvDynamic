@@ -1,10 +1,10 @@
 ###CsvDynamic
 
-This is a small library I built to take a CSV file and convert it for use in C# using dynamic objects. 
-It's pretty simple to use:
+This is a small library I built to take a CSV file and convert it for use in C# using dynamic objects. This can
+be used for using LINQ with CSV files in a snap. It's pretty simple to use:
 
 ```c#
-var result = CsvToLinq.ReadCsv(@"SomeFile.csv");
+var result = CsvDynamic.ReadCsv(@"SomeFile.csv");
 var amounts = result.Select(r => r.Amount);
 ```
 
@@ -46,7 +46,7 @@ public class SampleItem
 Using the above class, generating a list of SampleItems is easy:
 
 ```c#
-var result = CsvToLinq.ReadCsv(@"SomeFile.csv", i => new SampleItem(i));
+var result = CsvDynamic.ReadCsv(@"SomeFile.csv", i => new SampleItem(i));
 var amounts = result.Select(r => r.Amount);
 ```
 
