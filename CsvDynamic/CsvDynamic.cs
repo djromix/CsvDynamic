@@ -157,12 +157,16 @@ namespace CsvDynamic
         /// <returns></returns>
         internal static string SanitizeForProperty(string input)
         {
+            // Remove all non-alphanumeric
+            var re1 = new Regex("[^a-zA-Z0-9]");
+            input = re1.Replace(input, string.Empty);
+
             // URL that generated this code (this went over my ability to do RegEx's...)
             // http://txt2re.com/index-csharp.php3?s=1SomethingSomething23Something&2
-            const string re1 = ".*?"; // Non-greedy match on filler
-            const string re2 = "((?:[a-z][a-z0-9_]*))"; // Variable Name 1
+            const string re2 = ".*?"; // Non-greedy match on filler
+            const string re3 = "((?:[a-z][a-z0-9_]*))"; // Variable Name 1
 
-            var r = new Regex(re1 + re2, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            var r = new Regex(re2 + re3, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             var m = r.Match(input.Replace(" ", string.Empty));
             return m.Success ? m.Groups[1].ToString() : string.Empty;
         }

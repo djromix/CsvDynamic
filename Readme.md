@@ -11,8 +11,8 @@ var amounts = result.Select(r => r.Amount);
 The Convert function can handle string arrays, file paths, or Stream objects.
 
 The first row of the CSV file is assumed to be the header. The properties of the objects in the list that is 
-returned are derived from the contents of the header row, stripped of all non-alphanumeric characters (ex. "Total Deliveries"
-is now TotalDeliveries).
+returned are derived from the contents of the header row, stripped of all non-alphanumeric characters and any 
+beginning numeric characters (ex. "3 Total Deliveries 3" is now TotalDeliveries3).
 
 Of course, you lose Intellisense when you use dynamic objects. However, it's also easy to use for mapping to your classes. 
 You can use a function that generates a class, or you can add a constructor that takes in a dynamic object to your class:
