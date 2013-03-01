@@ -34,6 +34,40 @@ namespace CsvDynamic.UnitTests
 
 
         [Test]
+        public void Convert_StreamIsOK_ReturnsValidItems()
+        {
+            //
+            // Arrange
+            //
+            var memStream = new MemoryStream();
+            using (FileStream fileStream = File.OpenRead(_fileName))
+            {
+                memStream.SetLength(fileStream.Length);
+                fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
+            }
+
+            //
+            // Act
+            //
+
+            // Call function being test
+            var result = CsvDynamic.Convert(memStream);
+
+            //
+            // Assert
+            //
+            Assert.IsTrue(result.Count == 4);
+            Assert.IsTrue(result[0].Date == @"2/27/2013");
+            Assert.IsTrue(result[0].Description == @"Jimmy John's");
+            Assert.IsTrue(result[0].OriginalDescription == @"JIMMY JOHNS");
+            Assert.IsTrue(result[0].TransactionType == @"debit");
+            Assert.IsTrue(result[0].Category == @"Restaurants");
+            Assert.IsTrue(result[0].AccountName == @"CREDIT CARD");
+            Assert.IsTrue(result[0].Labels == string.Empty);
+            Assert.IsTrue(result[0].Notes == string.Empty);
+        }
+
+        [Test]
         public void Convert_FileIsOK_ReturnsValidItems()
         {
             //
