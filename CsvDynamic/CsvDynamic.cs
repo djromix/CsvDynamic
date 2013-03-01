@@ -98,14 +98,14 @@ namespace CsvDynamic
             var header = csvArray.First();
 
             // Ensure that each row has the same count, if not, that's not good
-            var fourSided = csvArray.All(row => row.Count() == header.Count());
+            var fourSided = csvArray.All(row => row.Length == header.Length);
             if (!fourSided) throw new CsvDynamicException("Not all rows had equal cell count.");
 
             // Sanitize header items
             header = header.Select(SanitizeForProperty).ToArray();
 
             // If duplicate header items, can't make properties
-            if (header.Distinct().Count() < header.Count())
+            if (header.Distinct().Count() < header.Length)
             {
                 throw new CsvDynamicException("Some columns have duplicate names.");
             }
