@@ -13,6 +13,8 @@ namespace CsvDynamic.UnitTests
         private string _fileMismatched;
         private string _fileEmpty;
         private string _fileMalformed;
+        private string _fileDuplicates;
+        private string _fileNumericName;
 
         #region Setup/Teardown
 
@@ -23,9 +25,12 @@ namespace CsvDynamic.UnitTests
             _fileContents = File.ReadAllLines(_fileName);
 
             _fileBroken = @"SampleBroken.csv";
+            _fileDuplicates = @"SampleDuplicates.csv";
+            _fileDuplicates = @"SampleDuplicates.csv";
             _fileMismatched = @"SampleMismatched.csv";
             _fileMalformed = @"SampleMalformed.csv";
             _fileEmpty = @"SampleEmpty.csv";
+            _fileNumericName = @"SampleNumericName.csv";
         }
 
         #endregion
@@ -94,6 +99,59 @@ namespace CsvDynamic.UnitTests
             Assert.IsTrue(result[0].AccountName == @"CREDIT CARD");
             Assert.IsTrue(result[0].Labels == string.Empty);
             Assert.IsTrue(result[0].Notes == string.Empty);
+        }
+
+
+        [Test]
+        public void Convert_FileHasNumericNames_ReturnsValidItems()
+        {
+            //
+            // Arrange
+            //
+
+
+            //
+            // Act
+            //
+
+            // Call function being test
+            var result = CsvDynamic.Convert(_fileNumericName);
+
+            //
+            // Assert
+            //
+            Assert.IsTrue(result.Count == 4);
+            Assert.IsTrue(result[0].Date == @"2/27/2013");
+            Assert.IsTrue(result[0].Description == @"Jimmy John's");
+            Assert.IsTrue(result[0].OriginalDescription == @"JIMMY JOHNS");
+            Assert.IsTrue(result[0].Amount == "6.58");
+            Assert.IsTrue(result[0].TransactionType2 == @"debit");
+            Assert.IsTrue(result[0].Category == @"Restaurants");
+            Assert.IsTrue(result[0].AccountName == @"CREDIT CARD");
+            Assert.IsTrue(result[0].Labels == string.Empty);
+            Assert.IsTrue(result[0].Notes == string.Empty);
+        }
+
+
+        [Test]
+        public void Convert_FileHeaderDuplicates_ReturnsException()
+        {
+            //
+            // Arrange
+            //
+
+
+            //
+            // Act
+            //
+
+            // Call function being test
+
+            //
+            // Assert
+            //
+            Assert.Throws<CsvDynamicException>(() => CsvDynamic.Convert(_fileDuplicates),
+                "Some columns have duplicate names.");
         }
 
         [Test]

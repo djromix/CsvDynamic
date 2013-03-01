@@ -102,8 +102,13 @@ namespace CsvDynamic
             if (!fourSided) throw new CsvDynamicException("Not all rows had equal cell count.");
 
             // Sanitize header items
-            var sanitizerRegex = new Regex("[^a-zA-Z0-9]");
-            header = header.Select(c => sanitizerRegex.Replace(c, string.Empty)).ToArray();
+            header = header.Select(SanitizeForProperty).ToArray();
+
+            // If duplicate header items, can't make properties
+            if (header.Distinct().Count() < header.Count())
+            {
+                throw new CsvDynamicException("Some columns have duplicate names.");
+            }
             
             // Get the other rows
             var items = csvArray.Skip(1).ToList();
@@ -146,6 +151,23 @@ namespace CsvDynamic
         }
 
         /// <summary>
+        /// Sanitizes a string for use as a property name.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        internal static string SanitizeForProperty(string input)
+        {
+            // URL that generated this code (this went over my ability to do RegEx's...)
+            // http://txt2re.com/index-csharp.php3?s=1SomethingSomething23Something&2
+            const string re1 = ".*?"; // Non-greedy match on filler
+            const string re2 = "((?:[a-z][a-z0-9_]*))"; // Variable Name 1
+
+            var r = new Regex(re1 + re2, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            var m = r.Match(input.Replace(" ", string.Empty));
+            return m.Success ? m.Groups[1].ToString() : string.Empty;
+        }
+
+        /// <summary>
         /// Converts a CSV string to dynamic objects, which then get mapped with a MapFunction.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -158,6 +180,11 @@ namespace CsvDynamic
             return converted.Select(i => (T)mapFunction(i)).ToList();
         }
 
+        /// <summary>
+        /// Converts a stream to a string array.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         internal static string[] ToStringArray(this Stream stream)
         {
             var list = new List<string>();
