@@ -34,7 +34,7 @@ namespace CsvDynamic.UnitTests
 
 
         [Test]
-        public void ReadCsv_FileIsOK_ReturnsValidItems()
+        public void Convert_FileIsOK_ReturnsValidItems()
         {
             //
             // Arrange
@@ -46,7 +46,7 @@ namespace CsvDynamic.UnitTests
             //
 
             // Call function being test
-            var result = CsvDynamic.ReadCsv(_fileName);
+            var result = CsvDynamic.Convert(_fileName);
 
             //
             // Assert
@@ -63,7 +63,7 @@ namespace CsvDynamic.UnitTests
         }
 
         [Test]
-        public void ReadCsv_FileIsBroken_ReturnsException()
+        public void Convert_FileIsBroken_ReturnsException()
         {
             //
             // Arrange
@@ -79,13 +79,13 @@ namespace CsvDynamic.UnitTests
             //
             // Assert
             //
-            Assert.Throws<CsvDynamicException>(() => CsvDynamic.ReadCsv(_fileBroken),
+            Assert.Throws<CsvDynamicException>(() => CsvDynamic.Convert(_fileBroken),
                 "Only one row was found.");
         }
 
 
         [Test]
-        public void ReadCsv_FileIsMismatched_ReturnsException()
+        public void Convert_FileIsMismatched_ReturnsException()
         {
             //
             // Arrange
@@ -101,13 +101,13 @@ namespace CsvDynamic.UnitTests
             //
             // Assert
             //
-            Assert.Throws<CsvDynamicException>(() => CsvDynamic.ReadCsv(_fileMismatched),
+            Assert.Throws<CsvDynamicException>(() => CsvDynamic.Convert(_fileMismatched),
                 "Not all rows had equal cell count.");
         }
 
 
         [Test]
-        public void ReadCsv_FileIsMalformed_ReturnsException()
+        public void Convert_FileIsMalformed_ReturnsException()
         {
             //
             // Arrange
@@ -124,12 +124,12 @@ namespace CsvDynamic.UnitTests
             // Assert
             //
             Assert.Throws<Microsoft.VisualBasic.FileIO.MalformedLineException>(
-                () => CsvDynamic.ReadCsv(_fileMalformed));
+                () => CsvDynamic.Convert(_fileMalformed));
         }
 
 
         [Test]
-        public void ReadCsv_FilePathIsEmpty_ReturnsException()
+        public void Convert_FilePathIsEmpty_ReturnsException()
         {
             //
             // Arrange
@@ -145,13 +145,13 @@ namespace CsvDynamic.UnitTests
             //
             // Assert
             //
-            Assert.Throws<ArgumentException>(() => CsvDynamic.ReadCsv(string.Empty),
+            Assert.Throws<ArgumentException>(() => CsvDynamic.Convert(string.Empty),
                 "Empty path name is not legal.");
         }
 
 
         [Test]
-        public void ReadCsv_FileDoesNotExist_ReturnsException()
+        public void Convert_FileDoesNotExist_ReturnsException()
         {
             //
             // Arrange
@@ -167,12 +167,12 @@ namespace CsvDynamic.UnitTests
             //
             // Assert
             //
-            Assert.Throws<FileNotFoundException>(() => CsvDynamic.ReadCsv("FileNotFound.csv"));
+            Assert.Throws<FileNotFoundException>(() => CsvDynamic.Convert("FileNotFound.csv"));
         }
 
 
         [Test]
-        public void ReadCsv_FileIsEmpty_ReturnsException()
+        public void Convert_FileIsEmpty_ReturnsException()
         {
             //
             // Arrange
@@ -188,13 +188,13 @@ namespace CsvDynamic.UnitTests
             //
             // Assert
             //
-            Assert.Throws<CsvDynamicException>(() => CsvDynamic.ReadCsv(_fileEmpty),
+            Assert.Throws<CsvDynamicException>(() => CsvDynamic.Convert(_fileEmpty),
                 "No rows were found.");
         }
 
 
         [Test]
-        public void ReadCsvMapped_FileIsOK_ReturnsValidItems()
+        public void ConvertMapped_FileIsOK_ReturnsValidItems()
         {
             //
             // Arrange
@@ -205,7 +205,7 @@ namespace CsvDynamic.UnitTests
             //
 
             // Call function being test
-            var result = CsvDynamic.ReadCsv(_fileName, i => new SampleItem(i));
+            var result = CsvDynamic.Convert(_fileName, i => new SampleItem(i));
 
             //
             // Assert
@@ -223,7 +223,7 @@ namespace CsvDynamic.UnitTests
         }
 
         [Test]
-        public void ConvertFromCsv_FileIsOK_ReturnsValidItems()
+        public void Convert_ContentsIsOK_ReturnsValidItems()
         {
             //
             // Arrange
@@ -235,7 +235,7 @@ namespace CsvDynamic.UnitTests
             //
 
             // Call function being test
-            var result = _fileContents.ConvertFromCsv();
+            var result = CsvDynamic.Convert(_fileContents);
 
             //
             // Assert
@@ -252,7 +252,7 @@ namespace CsvDynamic.UnitTests
         }
 
         [Test]
-        public void ConvertFromCsvMapped_FileIsOK_ReturnsValidItems()
+        public void ConvertMapped_ContentsIsOK_ReturnsValidItems()
         {
             //
             // Arrange
@@ -263,7 +263,7 @@ namespace CsvDynamic.UnitTests
             //
 
             // Call function being test
-            var result = _fileContents.ConvertFromCsv(i => new SampleItem(i));
+            var result = CsvDynamic.Convert(_fileContents, i => new SampleItem(i));
 
             //
             // Assert

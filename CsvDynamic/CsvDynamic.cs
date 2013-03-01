@@ -10,39 +10,80 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace CsvDynamic
 {
-    public class CsvDynamic
+    public static class CsvDynamic
     {
         /// <summary>
         /// Reads a CSV file and outputs dynamic objects.
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public static List<dynamic> ReadCsv(string filePath)
+        public static List<dynamic> Convert(string filePath)
         {
-            return File.ReadAllLines(filePath).ConvertFromCsv();
+            return File.ReadAllLines(filePath).Convert();
         }
 
         /// <summary>
-        /// Reads a CSV file, and outputs mapped dynamic objects.
+        /// Reads a CSV string array and outputs dynamic objects.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <param name="csvLines"></param>
+        /// <returns></returns>
+        public static List<dynamic> Convert(string[] csvLines)
+        {
+            return csvLines.Convert();
+        }
+
+        /// <summary>
+        /// Reads a stream containing CSV and outputs dynamic objects.
+        /// </summary>
+        /// <param name="csvStream"></param>
+        /// <returns></returns>
+        public static List<dynamic> Convert(Stream csvStream)
+        {
+            return csvStream.ToStringArray().Convert();
+        }
+
+        /// <summary>
+        /// Reads a CSV file and outputs mapped dynamic objects.
+        /// </summary>
         /// <param name="filePath"></param>
         /// <param name="mapFunction"></param>
         /// <returns></returns>
-        public static List<T> ReadCsv<T>(string filePath, Func<dynamic, T> mapFunction)
+        public static List<T> Convert<T>(string filePath, Func<dynamic, T> mapFunction)
         {
-            return File.ReadAllLines(filePath).ConvertFromCsv(mapFunction);
+            return File.ReadAllLines(filePath).Convert(mapFunction);
+        }
+
+        /// <summary>
+        /// Reads a CSV string array and outputs mapped dynamic objects.
+        /// </summary>
+        /// <param name="csvLines"></param>
+        /// <param name="mapFunction"></param>
+        /// <returns></returns>
+        public static List<T> Convert<T>(string[] csvLines, Func<dynamic, T> mapFunction)
+        {
+            return csvLines.Convert(mapFunction);
+        }
+
+        /// <summary>
+        /// Reads a stream containing CSV and outputs mapped dynamic objects.
+        /// </summary>
+        /// <param name="csvStream"></param>
+        /// <param name="mapFunction"></param>
+        /// <returns></returns>
+        public static List<T> Convert<T>(Stream csvStream, Func<dynamic, T> mapFunction)
+        {
+            return csvStream.ToStringArray().Convert(mapFunction);
         }
     }
 
-    public static class CsvDynamicExtensions
+    internal static class CsvDynamicExtensions
     {
         /// <summary>
         /// Converts a CSV string to dynamic objects.
         /// </summary>
         /// <param name="csvString"></param>
         /// <returns></returns>
-        public static List<dynamic> ConvertFromCsv(this string[] csvString)
+        internal static List<dynamic> Convert(this string[] csvString)
         {
             // If no rows, then it won't work.
             if (!csvString.Any()) throw new CsvDynamicException("No rows were found.");
@@ -90,7 +131,7 @@ namespace CsvDynamic
         /// </summary>
         /// <param name="csvString"></param>
         /// <returns></returns>
-        private static string[] ConvertStringToArray(string csvString)
+        internal static string[] ConvertStringToArray(string csvString)
         {
             var reader = new StringReader(string.Join(Environment.NewLine, csvString));
             using (var parser = new TextFieldParser(reader))
@@ -111,10 +152,24 @@ namespace CsvDynamic
         /// <param name="csvString"></param>
         /// <param name="mapFunction"></param>
         /// <returns></returns>
-        public static List<T> ConvertFromCsv<T>(this string[] csvString, Func<dynamic, T> mapFunction)
+        internal static List<T> Convert<T>(this string[] csvString, Func<dynamic, T> mapFunction)
         {
-            var converted = ConvertFromCsv(csvString);
+            var converted = Convert(csvString);
             return converted.Select(i => (T)mapFunction(i)).ToList();
+        }
+
+        internal static string[] ToStringArray(this Stream stream)
+        {
+            var list = new List<string>();
+            using (var sr = new StreamReader(stream))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    list.Add(line);
+                }
+            }
+            return list.ToArray();
         }
     }
 

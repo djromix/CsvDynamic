@@ -4,9 +4,11 @@ This is a small library I built to take a CSV file and convert it for use in C# 
 be used for using LINQ with CSV files in a snap. It's pretty simple to use:
 
 ```c#
-var result = CsvDynamic.ReadCsv(@"SomeFile.csv");
+var result = CsvDynamic.Convert(@"SomeFile.csv");
 var amounts = result.Select(r => r.Amount);
 ```
+
+The Convert function can handle string arrays, file paths, or Stream objects.
 
 The first row of the CSV file is assumed to be the header. The properties of the objects in the list that is 
 returned are derived from the contents of the header row, stripped of all non-alphanumeric characters (ex. "Total Deliveries"
@@ -46,14 +48,6 @@ public class SampleItem
 Using the above class, generating a list of SampleItems is easy:
 
 ```c#
-var result = CsvDynamic.ReadCsv(@"SomeFile.csv", i => new SampleItem(i));
+var result = CsvDynamic.Convert(@"SomeFile.csv", i => new SampleItem(i));
 var amounts = result.Select(r => r.Amount);
 ```
-
-#### Extension Methods
-
-If you already have the CSV loaded into an array of strings, you can simply call this method on it to get the same result:
-
-	var items = fileContents.ConvertFromCsv();
-
-Like ReadCsv, this can also take in a mapping function in the same way.
